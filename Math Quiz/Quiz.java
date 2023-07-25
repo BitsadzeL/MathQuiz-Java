@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class Quiz {
     public static void main(String[] args) throws FileNotFoundException {
@@ -24,11 +25,12 @@ public class Quiz {
         Scanner userInput = new Scanner(System.in); //for user answers
 
         ArrayList<String>  allQuestions=new ArrayList<String>(); //store all questions from file into this arraylist to choose random ones
-        ArrayList<String> randomQuestions=new ArrayList<String>(); //store random ones in this collection        
+        HashSet<String> randomQuestions=new HashSet<String>(); //store random ones in this collection        
 
         int quantity=Integer.parseInt(read.nextLine());
         int userAnswer;
         int points=0;
+        int questionNum=1;
         String name;
 
         //I am keeping all of the questions in "allQuestions" collection. This makes easy for me to choose random questions.
@@ -47,16 +49,18 @@ public class Quiz {
             System.out.println("Enter correct number of questions, please!");
         }else{
 
-            for(int i=0;i<n;i++){
+            while(randomQuestions.size()<n){
                 int index = random.nextInt(allQuestions.size());
                 randomQuestions.add(allQuestions.get(index));
             }
 
             //We are keeping questions as a line,so we need to split it to print equation and understand the answer.
             //The answer is always the last element of the array.
-            for(int i=0;i<n;i++){
-                String[] line=randomQuestions.get(i).split(";");
-                System.out.println((i+1)+")"+line[0]); //equation (first element of the array)
+            for(String prompt: randomQuestions){
+
+                String[] line=prompt.split(";");
+                System.out.println((questionNum)+")"+line[0]); //equation (first element of the array)
+                questionNum++;
                 int answer=Integer.parseInt(line[5]); //answer of the given equation
                 System.out.print("Answer:");
                 userAnswer=userInput.nextInt();
